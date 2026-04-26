@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio — Strategy & Operations</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;700&family=Google+Sans+Display:wght@300;400;700&family=Google+Sans+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --g-blue:   #4285F4;
+      --g-red:    #EA4335;
+      --g-yellow: #FBBC05;
+      --g-green:  #34A853;
+      --g-blue-light:   #E8F0FE;
+      --g-red-light:    #FCE8E6;
+      --g-yellow-light: #FEF7E0;
+      --g-green-light:  #E6F4EA;
+      --bg:       #FFFFFF;
+      --surface:  #F8F9FA;
+      --surface2: #F1F3F4;
+      --border:   #DADCE0;
+      --text:     #202124;
+      --text-2:   #3C4043;
+      --muted:    #5F6368;
+      --shadow-sm: 0 1px 3px rgba(60,64,67,0.08), 0 1px 2px rgba(60,64,67,0.06);
+      --shadow-md: 0 4px 12px rgba(60,64,67,0.12), 0 2px 4px rgba(60,64,67,0.08);
+      --shadow-lg: 0 8px 28px rgba(60,64,67,0.14), 0 4px 10px rgba(60,64,67,0.08);
+      --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Google Sans', 'Product Sans', Arial, sans-serif;
+      font-weight: 400; line-height: 1.7; overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 5%; height: 64px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Google Sans Display', sans-serif;
+      font-size: 1.1rem; font-weight: 500; color: var(--text); text-decoration: none;
+    }
+    .g-dots { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; width: 16px; }
+    .g-dots span { width: 7px; height: 7px; border-radius: 50%; }
+    .g-dots span:nth-child(1) { background: var(--g-blue); }
+    .g-dots span:nth-child(2) { background: var(--g-red); }
+    .g-dots span:nth-child(3) { background: var(--g-green); }
+    .g-dots span:nth-child(4) { background: var(--g-yellow); }
+    .nav-links { display: flex; gap: 0.2rem; list-style: none; }
+    .nav-links a {
+      padding: 0.45rem 1rem; border-radius: 20px;
+      font-size: 0.85rem; font-weight: 500; text-decoration: none; color: var(--muted);
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-links a:hover { background: var(--surface2); color: var(--g-blue); }
+
+    section { position: relative; z-index: 1; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; padding: 64px 5% 0; gap: 5rem; overflow: hidden;
+    }
+    #hero::before {
+      content: ''; position: absolute; top: -100px; right: -60px;
+      width: 500px; height: 500px; border-radius: 50%; pointer-events: none;
+      background: radial-gradient(circle, rgba(66,133,244,0.08) 0%, transparent 70%);
+    }
+    #hero::after {
+      content: ''; position: absolute; bottom: -60px; left: 28%;
+      width: 380px; height: 380px; border-radius: 50%; pointer-events: none;
+      background: radial-gradient(circle, rgba(52,168,83,0.06) 0%, transparent 70%);
+    }
+    .hero-name-header {
+      font-family: 'Google Sans Display', sans-serif;
+      font-size: 1rem; font-weight: 500; color: var(--muted);
+      letter-spacing: 0.04em; margin-bottom: 0.6rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .hero-name-header::before {
+      content: ''; display: block; width: 20px; height: 2px;
+      background: linear-gradient(90deg, var(--g-blue), var(--g-red));
+      border-radius: 2px;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 20px; background: var(--g-blue-light);
+      font-size: 0.8rem; font-weight: 500; color: var(--g-blue); margin-bottom: 1.5rem;
+    }
+    .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--g-blue); }
+    .hero-name {
+      font-family: 'Google Sans Display', sans-serif;
+      font-size: clamp(2.8rem, 5.5vw, 4.8rem);
+      font-weight: 400; line-height: 1.1; letter-spacing: -0.02em; color: var(--text);
+    }
+    .c-b { color: var(--g-blue); }
+    .c-r { color: var(--g-red); }
+    .c-y { color: var(--g-yellow); }
+    .c-g { color: var(--g-green); }
+    .hero-subtitle {
+      margin-top: 1.4rem; font-size: 1.05rem; color: var(--muted); max-width: 50ch; line-height: 1.75;
+    }
+    .hero-cta { margin-top: 2.4rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 0.8rem 2rem; border-radius: 24px;
+      background: var(--g-blue); color: #fff;
+      font-family: 'Google Sans', sans-serif; font-size: 0.9rem; font-weight: 500;
+      text-decoration: none; border: none; cursor: pointer;
+      box-shadow: 0 2px 8px rgba(66,133,244,0.35);
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: #1a73e8; box-shadow: 0 4px 14px rgba(66,133,244,0.45); transform: translateY(-2px); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 0.8rem 2rem; border-radius: 24px;
+      background: transparent; color: var(--g-blue);
+      font-family: 'Google Sans', sans-serif; font-size: 0.9rem; font-weight: 500;
+      text-decoration: none; border: 1.5px solid var(--g-blue); cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-outline:hover { background: var(--g-blue-light); transform: translateY(-2px); }
+
+    .hero-stats-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);
+      display: grid; grid-template-columns: 1fr 1fr; position: relative; z-index: 2; overflow: hidden;
+    }
+    .stat-item { padding: 2rem 1.8rem; }
+    .stat-item:nth-child(1) { border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); }
+    .stat-item:nth-child(2) { border-bottom: 1px solid var(--border); }
+    .stat-item:nth-child(3) { border-right: 1px solid var(--border); }
+    .stat-num { font-family: 'Google Sans Display', sans-serif; font-size: 2.8rem; font-weight: 400; line-height: 1; }
+    .stat-item:nth-child(1) .stat-num { color: var(--g-blue); }
+    .stat-item:nth-child(2) .stat-num { color: var(--g-red); }
+    .stat-item:nth-child(3) .stat-num { color: var(--g-green); }
+    .stat-item:nth-child(4) .stat-num { color: #B06000; }
+    .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.4rem; line-height: 1.4; }
+
+    /* ── METRICS BAND ── */
+    #metrics { background: var(--text); }
+    .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); max-width: 1200px; margin: 0 auto; }
+    .metric-card {
+      padding: 3.5rem 2rem; text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.25s; position: relative; overflow: hidden;
+    }
+    .metric-card:last-child { border-right: none; }
+    .metric-card::before {
+      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 50px; height: 3px;
+    }
+    .metric-card:nth-child(1)::before { background: var(--g-blue); }
+    .metric-card:nth-child(2)::before { background: var(--g-red); }
+    .metric-card:nth-child(3)::before { background: var(--g-green); }
+    .metric-card:nth-child(4)::before { background: var(--g-yellow); }
+    .metric-card:hover { background: rgba(255,255,255,0.04); }
+    .metric-val { font-family: 'Google Sans Display', sans-serif; font-size: 3rem; font-weight: 400; color: #fff; line-height: 1; }
+    .metric-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 0.6rem; }
+
+    /* ── SECTION SHARED ── */
+    .section-inner { max-width: 1200px; margin: 0 auto; padding: 7rem 5%; }
+    .section-header { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 4rem; }
+    .section-chip {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 5px 14px; border-radius: 20px; flex-shrink: 0;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .chip-blue   { background: var(--g-blue-light);   color: var(--g-blue); }
+    .chip-red    { background: var(--g-red-light);    color: var(--g-red); }
+    .chip-green  { background: var(--g-green-light);  color: var(--g-green); }
+    .chip-yellow { background: var(--g-yellow-light); color: #B06000; }
+    .section-title { font-family: 'Google Sans Display', sans-serif; font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 400; color: var(--text); }
+    .section-line { flex: 1; height: 1px; background: var(--border); }
+
+    /* ── ABOUT ── */
+    #about { background: var(--surface); }
+    .about-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 5rem; align-items: start; }
+    .about-text p { font-size: 1rem; color: var(--text-2); margin-bottom: 1.4rem; max-width: 62ch; line-height: 1.8; }
+    .about-text p strong { color: var(--g-blue); font-weight: 600; }
+    .core-competencies { display: flex; flex-direction: column; gap: 0.75rem; }
+    .comp-item {
+      padding: 1rem 1.2rem; border-radius: var(--radius-sm);
+      background: var(--bg); border: 1px solid var(--border);
+      display: flex; align-items: flex-start; gap: 12px;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .comp-item:hover { box-shadow: var(--shadow-md); border-color: transparent; }
+    .comp-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+    .comp-item:nth-child(1) .comp-dot { background: var(--g-blue); }
+    .comp-item:nth-child(2) .comp-dot { background: var(--g-red); }
+    .comp-item:nth-child(3) .comp-dot { background: var(--g-yellow); }
+    .comp-item:nth-child(4) .comp-dot { background: var(--g-green); }
+    .comp-item:nth-child(5) .comp-dot { background: var(--g-blue); }
+    .comp-label { font-size: 0.85rem; font-weight: 600; color: var(--text); }
+    .comp-desc { font-size: 0.78rem; color: var(--muted); margin-top: 0.15rem; }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--bg); }
+    .timeline { display: flex; flex-direction: column; }
+    .exp-item { display: grid; grid-template-columns: 240px 1fr; gap: 3rem; padding: 3rem 0; border-bottom: 1px solid var(--border); }
+    .exp-item:last-child { border-bottom: none; }
+    .exp-company-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 20px;
+      font-size: 0.75rem; font-weight: 600; margin-bottom: 0.8rem;
+    }
+    .badge-google { background: var(--g-blue-light); color: var(--g-blue); }
+    .badge-dell   { background: var(--g-blue-light); color: #1a73e8; }
+    .badge-other  { background: var(--surface2); color: var(--muted); }
+    .exp-company { font-family: 'Google Sans Display', sans-serif; font-size: 1.3rem; font-weight: 400; color: var(--text); line-height: 1.2; }
+    .exp-period { font-family: 'Google Sans Mono', monospace; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.04em; margin-top: 0.4rem; }
+    .exp-location { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+    .award-badge {
+      display: inline-flex; align-items: center; gap: 5px; margin-top: 0.8rem;
+      padding: 4px 10px; border-radius: 12px;
+      background: var(--g-yellow-light); font-size: 0.7rem; font-weight: 600; color: #B06000;
+    }
+    .exp-role { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 1.2rem; }
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
+    .exp-bullets li { font-size: 0.9rem; color: var(--text-2); padding-left: 1.4rem; position: relative; line-height: 1.65; }
+    .exp-bullets li::before {
+      content: ''; position: absolute; left: 0; top: 0.65rem;
+      width: 7px; height: 7px; border-radius: 50%;
+    }
+    .exp-item:nth-child(1) .exp-bullets li::before { background: var(--g-blue); }
+    .exp-item:nth-child(2) .exp-bullets li::before { background: var(--g-red); }
+    .exp-item:nth-child(3) .exp-bullets li::before { background: var(--g-green); }
+    .exp-item:nth-child(4) .exp-bullets li::before { background: var(--g-yellow); }
+    .exp-item:nth-child(5) .exp-bullets li::before { background: var(--g-blue); }
+    .exp-bullets li strong { font-weight: 600; color: var(--text); }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--surface); }
+    .skills-layout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .skill-group {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 1.8rem;
+      transition: box-shadow 0.25s, border-color 0.25s;
+    }
+    .skill-group:hover { box-shadow: var(--shadow-md); border-color: transparent; }
+    .skill-group-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+    .skill-group-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .skill-group:nth-child(1) .skill-group-dot { background: var(--g-blue); }
+    .skill-group:nth-child(2) .skill-group-dot { background: var(--g-red); }
+    .skill-group:nth-child(3) .skill-group-dot { background: var(--g-green); }
+    .skill-group:nth-child(4) .skill-group-dot { background: var(--g-yellow); }
+    .skill-group:nth-child(5) .skill-group-dot { background: var(--g-blue); }
+    .skill-group:nth-child(6) .skill-group-dot { background: var(--g-red); }
+    .skill-group-title { font-size: 0.8rem; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.03em; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill-tag {
+      padding: 0.28rem 0.85rem; border-radius: 20px; font-size: 0.78rem;
+      background: var(--surface2); color: var(--text-2); transition: all 0.2s; cursor: default;
+    }
+    .skill-group:nth-child(1) .skill-tag:hover { background: var(--g-blue-light); color: var(--g-blue); }
+    .skill-group:nth-child(2) .skill-tag:hover { background: var(--g-red-light); color: var(--g-red); }
+    .skill-group:nth-child(3) .skill-tag:hover { background: var(--g-green-light); color: var(--g-green); }
+    .skill-group:nth-child(4) .skill-tag:hover { background: var(--g-yellow-light); color: #B06000; }
+    .skill-group:nth-child(5) .skill-tag:hover { background: var(--g-blue-light); color: var(--g-blue); }
+    .skill-group:nth-child(6) .skill-tag:hover { background: var(--g-red-light); color: var(--g-red); }
+
+    /* ── EDUCATION ── */
+    #education { background: var(--bg); }
+    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .edu-card {
+      padding: 2rem; border: 1px solid var(--border);
+      border-radius: var(--radius-md); overflow: hidden;
+      transition: box-shadow 0.25s, border-color 0.25s; position: relative;
+    }
+    .edu-card:hover { box-shadow: var(--shadow-md); border-color: transparent; }
+    .edu-card-accent { height: 4px; margin: -2rem -2rem 1.2rem; }
+    .edu-card:nth-child(1) .edu-card-accent { background: linear-gradient(90deg, var(--g-blue), var(--g-red)); }
+    .edu-card:nth-child(2) .edu-card-accent { background: linear-gradient(90deg, var(--g-yellow), var(--g-green)); }
+    .edu-degree { font-family: 'Google Sans Display', sans-serif; font-size: 1.2rem; font-weight: 400; color: var(--text); }
+    .edu-school { font-size: 0.88rem; color: var(--g-blue); margin-top: 0.4rem; font-weight: 500; }
+    .edu-year { font-family: 'Google Sans Mono', monospace; font-size: 0.7rem; color: var(--muted); margin-top: 0.3rem; }
+    .cert-strip { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+    .cert-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 0.5rem 1.2rem; border-radius: 24px; border: 1.5px solid var(--border);
+      font-size: 0.8rem; color: var(--text-2); transition: all 0.2s;
+    }
+    .cert-pill:hover { border-color: var(--g-blue); color: var(--g-blue); background: var(--g-blue-light); }
+    .cert-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .cert-pill:nth-child(1) .cert-dot { background: var(--g-blue); }
+    .cert-pill:nth-child(2) .cert-dot { background: var(--g-green); }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--surface); }
+    .contact-layout { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 6rem; align-items: start; }
+    .contact-info h3 { font-family: 'Google Sans Display', sans-serif; font-size: 1.9rem; font-weight: 400; color: var(--text); margin-bottom: 1rem; }
+    .contact-info p { font-size: 0.95rem; color: var(--muted); line-height: 1.75; margin-bottom: 2rem; }
+    .contact-details { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-detail { display: flex; align-items: center; gap: 1rem; }
+    .cd-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .cd-icon.blue   { background: var(--g-blue-light); }
+    .cd-icon.red    { background: var(--g-red-light); }
+    .cd-icon.green  { background: var(--g-green-light); }
+    .cd-text { font-size: 0.88rem; color: var(--muted); }
+    .cd-text strong { display: block; color: var(--text); font-weight: 600; font-size: 0.78rem; margin-bottom: 0.1rem; }
+    .contact-form-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem; box-shadow: var(--shadow-sm); }
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 0.78rem; font-weight: 600; color: var(--text-2); }
+    .form-group input, .form-group select, .form-group textarea {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm); color: var(--text); padding: 0.8rem 1rem;
+      font-family: 'Google Sans', sans-serif; font-size: 0.9rem;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--g-blue); box-shadow: 0 0 0 3px rgba(66,133,244,0.15); background: var(--bg);
+    }
+    .form-group textarea { resize: vertical; min-height: 130px; }
+    .form-submit { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-top: 0.4rem; }
+    .form-note { font-size: 0.78rem; color: var(--muted); }
+    .success-msg {
+      display: none; padding: 1rem 1.4rem; border-radius: var(--radius-sm);
+      background: var(--g-green-light); color: var(--g-green);
+      font-size: 0.88rem; font-weight: 500; border: 1px solid rgba(52,168,83,0.3);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 1.6rem 5%; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem; background: var(--bg);
+    }
+    .footer-left { display: flex; align-items: center; gap: 10px; }
+    .footer-dots { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+    .footer-dots span { width: 7px; height: 7px; border-radius: 50%; }
+    .footer-dots span:nth-child(1) { background: var(--g-blue); }
+    .footer-dots span:nth-child(2) { background: var(--g-red); }
+    .footer-dots span:nth-child(3) { background: var(--g-green); }
+    .footer-dots span:nth-child(4) { background: var(--g-yellow); }
+    .footer-copy { font-size: 0.8rem; color: var(--muted); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--g-blue); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-up { animation: fadeUp 0.7s ease both; }
+    .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.22s; }
+    .delay-3 { animation-delay: 0.36s; } .delay-4 { animation-delay: 0.52s; }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── IMPACT CARDS ── */
+    #impact { background: var(--bg); }
+    .impact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .impact-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 2rem;
+      display: flex; flex-direction: column; gap: 1.4rem;
+      transition: box-shadow 0.25s, border-color 0.25s;
+    }
+    .impact-card:hover { box-shadow: var(--shadow-lg); border-color: transparent; }
+    .impact-card-header { display: flex; align-items: flex-start; gap: 1rem; }
+    .impact-icon {
+      width: 48px; height: 48px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.35rem; flex-shrink: 0;
+    }
+    .ic-blue   { background: var(--g-blue-light); }
+    .ic-green  { background: var(--g-green-light); }
+    .ic-yellow { background: var(--g-yellow-light); }
+    .ic-red    { background: var(--g-red-light); }
+    .impact-card-title {
+      font-family: 'Google Sans Display', sans-serif;
+      font-size: 1.22rem; font-weight: 400; color: var(--text);
+      line-height: 1.25; padding-top: 4px;
+    }
+    .impact-body { display: flex; flex-direction: column; gap: 0.85rem; flex: 1; }
+    .impact-row { font-size: 0.9rem; color: var(--text-2); line-height: 1.65; }
+    .impact-row strong { color: var(--text); font-weight: 600; }
+    .impact-divider { height: 1px; background: var(--border); margin: 0.1rem 0; }
+    .impact-result {
+      display: inline-flex; align-items: center;
+      padding: 0.45rem 1rem; border-radius: 20px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; margin-top: 0.3rem; align-self: flex-start;
+    }
+    .result-blue   { background: var(--g-blue-light);   color: var(--g-blue); }
+    .result-green  { background: var(--g-green-light);  color: var(--g-green); }
+    .result-yellow { background: var(--g-yellow-light); color: #B06000; }
+    .result-red    { background: var(--g-red-light);    color: var(--g-red); }
+    @media (max-width: 900px) { .impact-grid { grid-template-columns: 1fr; } }
+
+    @media (max-width: 900px) {
+      #hero { grid-template-columns: 1fr; padding-top: 5rem; }
+      .hero-stats-card { grid-template-columns: 1fr 1fr; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .exp-item { grid-template-columns: 1fr; gap: 1rem; }
+      .metrics-grid { grid-template-columns: 1fr 1fr; }
+      .metric-card:nth-child(2) { border-right: none; }
+      .metric-card:nth-child(3), .metric-card:nth-child(4) { border-top: 1px solid rgba(255,255,255,0.08); }
+      .skills-layout { grid-template-columns: 1fr; }
+      .edu-grid { grid-template-columns: 1fr; }
+      .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .form-row { grid-template-columns: 1fr; }
+      nav .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="#hero">
+      <div class="g-dots"><span></span><span></span><span></span><span></span></div>
+      Nikhil Acharya
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#impact">Impact</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section id="hero">
+    <div>
+      <p class="hero-name-header fade-up">Nikhil Acharya</p>
+      <p class="hero-eyebrow fade-up delay-1"><span class="eyebrow-dot"></span>Strategy &amp; Operations · Bangalore, India</p>
+      <h1 class="hero-name fade-up delay-2">
+        <span class="c-b">D</span><span class="c-r">r</span><span class="c-y">i</span><span class="c-g">v</span>ing Impact<br>
+        Through Data<br>&amp; Strategy
+      </h1>
+      <p class="hero-subtitle fade-up delay-3">~7 years across Strategic Planning, Finance, Sales Operations &amp; Analytics — translating complex data into executive decisions at Google and Dell Technologies.</p>
+      <div class="hero-cta fade-up delay-4">
+        <a href="#impact" class="btn-primary">Key Impact Stories</a>
+        <a href="#experience" class="btn-outline">View Experience</a>
+        <a href="#contact" class="btn-outline">Get In Touch</a>
+      </div>
+    </div>
+    <div class="hero-stats-card fade-up delay-4">
+      <div class="stat-item"><div class="stat-num">7+</div><div class="stat-label">Years of Experience</div></div>
+      <div class="stat-item"><div class="stat-num">20%</div><div class="stat-label">Accuracy Gain via AI Forecasting Models</div></div>
+      <div class="stat-item"><div class="stat-num">$2M</div><div class="stat-label">Annual Cost Savings</div></div>
+      <div class="stat-item"><div class="stat-num">50%</div><div class="stat-label">Reporting Time Saved</div></div>
+    </div>
+  </section>
+
+  <section id="metrics">
+    <div class="metrics-grid">
+      <div class="metric-card reveal"><div class="metric-val">250+</div><div class="metric-label">GWS Sellers in Territory Planning</div></div>
+      <div class="metric-card reveal"><div class="metric-val">1300+</div><div class="metric-label">Whitespace &amp; SMB Accounts Analysed</div></div>
+      <div class="metric-card reveal"><div class="metric-val">12%</div><div class="metric-label">YoY B2B Revenue Growth Delivered</div></div>
+      <div class="metric-card reveal"><div class="metric-val">20+</div><div class="metric-label">Senior Sales Leaders Empowered</div></div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-chip chip-blue">01 · About</span>
+        <h2 class="section-title">Who I Am</h2>
+        <span class="section-line"></span>
+      </div>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>I'm a <strong>Strategy &amp; Operations professional</strong> with a proven track record of leading cross-functional initiatives at scale. Currently serving as <strong>Financial Analyst II (APAC Lead) at Google</strong>, I sit at the intersection of data, finance, and commercial strategy — helping sales leaders see around corners and act with confidence.</p>
+          <p>My work spans forecasting model design, sales performance analytics, AI-driven insights, and annual planning. I've built systems used by 20+ senior leaders across Google Workspace and developed scalable frameworks at Dell Technologies that moved the revenue needle by double digits.</p>
+          <p>I pair a <strong>Master's in Business Analytics</strong> from UT Dallas with deep hands-on experience in SaaS, cloud, and enterprise technology — making me fluent in both the business problem and the data story that solves it.</p>
+        </div>
+        <div class="core-competencies reveal">
+          <div class="comp-item"><span class="comp-dot"></span><div><div class="comp-label">Strategic Planning &amp; Forecasting</div><div class="comp-desc">Composite models, AI-based forecasting, AOP &amp; quota design</div></div></div>
+          <div class="comp-item"><span class="comp-dot"></span><div><div class="comp-label">Revenue Analytics</div><div class="comp-desc">MRR/ARR, pipeline health, churn, forecast-variance analysis</div></div></div>
+          <div class="comp-item"><span class="comp-dot"></span><div><div class="comp-label">Sales Operations</div><div class="comp-desc">Territory planning, coverage models, GTM enablement</div></div></div>
+          <div class="comp-item"><span class="comp-dot"></span><div><div class="comp-label">Executive Reporting &amp; BI</div><div class="comp-desc">Power BI &amp; Tableau dashboards for VP-level stakeholders</div></div></div>
+          <div class="comp-item"><span class="comp-dot"></span><div><div class="comp-label">Cross-functional Leadership</div><div class="comp-desc">Program management, rhythm-of-business, MBR/QBR facilitation</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="impact">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-chip chip-red">02 · Impact</span>
+        <h2 class="section-title">Key Impact Stories</h2>
+        <span class="section-line"></span>
+      </div>
+      <div class="impact-grid">
+
+        <!-- Card 1: Forecasting Transformation -->
+        <div class="impact-card reveal">
+          <div class="impact-card-header">
+            <div class="impact-icon ic-blue">🔄</div>
+            <div class="impact-card-title">Forecasting Transformation</div>
+          </div>
+          <div class="impact-body">
+            <div class="impact-row"><strong>Situation:</strong> Fragmented APAC bookings forecasting process for GWS Cloud, lacking standardization and accuracy.</div>
+            <div class="impact-divider"></div>
+            <div class="impact-row"><strong>Task:</strong> Redesign the forecasting RoB with AI-driven models to improve quarterly outlook reliability.</div>
+            <div class="impact-divider"></div>
+            <div class="impact-row"><strong>Action:</strong> Co-led transformation using composite models (growth rate, linearity, pipeline close-rates) and AI-based forecasting, driving bi-weekly pipeline councils &amp; MBR/QBR cadence.</div>
+            <div class="impact-result result-blue">Result: +20% Accuracy Improvement</div>
+          </div>
+        </div>
+
+        <!-- Card 2: SMB Territory Growth -->
+        <div class="impact-card reveal">
+          <div class="impact-card-header">
+            <div class="impact-icon ic-green">👥</div>
+            <div class="impact-card-title">SMB Territory Growth</div>
+          </div>
+          <div class="impact-body">
+            <div class="impact-row"><strong>Situation:</strong> Untapped potential in 1,300+ SMB whitespace accounts across Storage &amp; Server product LOBs.</div>
+            <div class="impact-divider"></div>
+            <div class="impact-row"><strong>Task:</strong> Identify growth levers and prioritize accounts using data-driven segmentation and TAM analysis.</div>
+            <div class="impact-divider"></div>
+            <div class="impact-row"><strong>Action:</strong> Executed end-to-end analyses using customer segmentation, pipeline health &amp; TAM to target high-impact GTM programs and drive cross-sell performance.</div>
+            <div class="impact-result result-green">Result: 5–7% QoQ Revenue Growth</div>
+          </div>
+        </div>
+
+        <!-- Card 3: Annual Territory Planning -->
+        <div class="impact-card reveal">
+          <div class="impact-card-header">
+            <div class="impact-icon ic-yellow">🗺️</div>
+            <div class="impact-card-title">Annual Territory Planning</div>
+          </div>
+          <div class="impact-body">
+            <div class="impact-row"><strong>Situation:</strong> FY26 territory &amp; quota targets for 250+ GWS sellers lacked a structured, data-driven foundation.</div>
+            <div class="impact-divider"></div>
+            <div class="impact-row"><strong>Task:</strong> Partner with Field Sales Ops &amp; Sales Leadership to redesign the AOP/Quota planning framework.</div>
+            <div class="impact-divider"></div>
+            <div class="impact-row"><strong>Action:</strong> Designed a framework using historical Booking Wins, Seller &amp; Sales Coverage models to enable data-driven territory allocation &amp; performance management.</div>
+            <div class="impact-result result-yellow">Result: 250+ Sellers, Scalable Framework</div>
+          </div>
+        </div>
+
+        <!-- Card 4: Sales Analytics Dashboards -->
+        <div class="impact-card reveal">
+          <div class="impact-card-header">
+            <div class="impact-icon ic-red">📊</div>
+            <div class="impact-card-title">Analytics &amp; Insights at Scale</div>
+          </div>
+          <div class="impact-body">
+            <div class="impact-row"><strong>Situation:</strong> Field Regional VPs lacked real-time visibility into key SaaS OKRs — MRR/ARR, ARPU, Churn &amp; Forecast-Variance.</div>
+            <div class="impact-divider"></div>
+            <div class="impact-row"><strong>Task:</strong> Build and scale a market-level sales performance reporting system for VP-level leadership.</div>
+            <div class="impact-divider"></div>
+            <div class="impact-row"><strong>Action:</strong> Developed &amp; scaled Field Market-level Sales Performance Dashboards with real-time KPI tracking across all GTMs, adopted by 20+ sales leaders.</div>
+            <div class="impact-result result-red">Result: 50% Faster Reporting Turnaround</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-chip chip-red">03 · Experience</span>
+        <h2 class="section-title">Work History</h2>
+        <span class="section-line"></span>
+      </div>
+      <div class="timeline">
+        <div class="exp-item reveal">
+          <div>
+            <div class="exp-company-badge badge-google">🔵 Google</div>
+            <div class="exp-company">Google Inc.</div>
+            <div class="exp-period">Oct 2024 — Present</div>
+            <div class="exp-location">Bangalore, India</div>
+            <div class="award-badge">⭐ Spot Bonus ×3</div>
+          </div>
+          <div>
+            <div class="exp-role">Financial Analyst II — GTM Finance &amp; Sales Strategy, GWS (APAC Lead)</div>
+            <ul class="exp-bullets">
+              <li><strong>Strategic Transformation:</strong> Co-led Bookings forecasting transformation for Google Workspace Cloud, improving quarterly outlook accuracy by <strong>10–20%</strong> through composite &amp; AI-based models.</li>
+              <li><strong>Analytics &amp; Insights:</strong> Built Field Market-level Sales Performance Dashboards for Regional VPs — tracking MRR/ARR, ARPU, churn &amp; forecast-variance, cutting reporting turnaround by <strong>50%</strong>.</li>
+              <li><strong>AI-Driven RoB:</strong> Launched weekly AI-powered insights package on pipeline, bookings &amp; priority deals adopted by <strong>20+ sales leaders</strong> to drive forecasting cadence.</li>
+              <li><strong>Annual Planning:</strong> Designed FY26 AOP/Quota framework covering <strong>250+ GWS sellers</strong> using historical bookings &amp; seller coverage models.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="exp-item reveal">
+          <div>
+            <div class="exp-company-badge badge-dell">🔷 Dell</div>
+            <div class="exp-company">Dell Technologies</div>
+            <div class="exp-period">May 2021 — Sept 2024</div>
+            <div class="exp-location">Remote / Pune, India</div>
+            <div class="award-badge">⭐ Bravo ×3 · Applause ×3</div>
+          </div>
+          <div>
+            <div class="exp-role">Advisor — Sales Strategy &amp; Planning, Global Business Operations</div>
+            <ul class="exp-bullets">
+              <li>Improved Quarterly Outlook Planning by <strong>10%</strong> via Revenue Forecasting Models across EMEA/APAC SMB GTM segments.</li>
+              <li>Led analyses on <strong>1,300+ whitespace &amp; SMB accounts</strong> driving <strong>5–7% QoQ growth</strong> in Storage &amp; Server revenues.</li>
+              <li>Partnered with <strong>10+ APAC &amp; EMEA Sales Managers</strong> on Direct/X-Sell programs yielding <strong>5–12% YoY B2B revenue growth</strong>.</li>
+              <li>Scaled Territory-level Power BI Dashboard serving <strong>15+ SMB Sales leaders</strong> and 100+ GBO stakeholders.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="exp-item reveal">
+          <div>
+            <div class="exp-company-badge badge-other">Codersdata</div>
+            <div class="exp-company">Codersdata LLC</div>
+            <div class="exp-period">Mar 2020 — Feb 2021</div>
+            <div class="exp-location">Remote, USA</div>
+          </div>
+          <div>
+            <div class="exp-role">Data Analyst — Sales Operations</div>
+            <ul class="exp-bullets">
+              <li>Built cross-functional Tableau dashboards tracking YoY revenue trends, P&amp;L KPIs, workforce demographics &amp; productivity metrics for Finance org.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="exp-item reveal">
+          <div>
+            <div class="exp-company-badge badge-other">SAP</div>
+            <div class="exp-company">SAP America Inc.</div>
+            <div class="exp-period">Jan 2019 — May 2019</div>
+            <div class="exp-location">Newtown Square, PA</div>
+          </div>
+          <div>
+            <div class="exp-role">Sales Operations Intern — DBS Sales Operations</div>
+            <ul class="exp-bullets">
+              <li>Created Weekly Segment package for <strong>25+ leads across 15+ markets</strong> in USA &amp; Canada, covering market performance, YoY growth, win/loss ratios &amp; pipeline trends.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="exp-item reveal">
+          <div>
+            <div class="exp-company-badge badge-other">TCS</div>
+            <div class="exp-company">Tata Consultancy Services</div>
+            <div class="exp-period">Mar 2015 — Apr 2016</div>
+            <div class="exp-location">Bangalore, India</div>
+          </div>
+          <div>
+            <div class="exp-role">IT Analyst — IT Business Operations</div>
+            <ul class="exp-bullets">
+              <li>Led migration of <strong>50+ Linux ERP systems</strong> to VMware cloud, delivering <strong>2–5% performance improvement</strong> and <strong>$2M annual cost savings</strong>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-chip chip-green">04 · Skills</span>
+        <h2 class="section-title">Skills &amp; Tools</h2>
+        <span class="section-line"></span>
+      </div>
+      <div class="skills-layout">
+        <div class="skill-group reveal">
+          <div class="skill-group-header"><span class="skill-group-dot"></span><span class="skill-group-title">AI &amp; BI Visualization</span></div>
+          <div class="skill-tags">
+            <span class="skill-tag">Tableau</span><span class="skill-tag">Power BI</span><span class="skill-tag">Google AI Studio</span>
+            <span class="skill-tag">AWS QuickSight</span><span class="skill-tag">Gemini</span><span class="skill-tag">Claude AI</span>
+            <span class="skill-tag">Excel</span><span class="skill-tag">Google Sheets</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <div class="skill-group-header"><span class="skill-group-dot"></span><span class="skill-group-title">Data &amp; Analytics</span></div>
+          <div class="skill-tags">
+            <span class="skill-tag">SQL</span><span class="skill-tag">Revenue Forecasting</span><span class="skill-tag">Pipeline Analytics</span>
+            <span class="skill-tag">Customer Segmentation</span><span class="skill-tag">KPI Design</span><span class="skill-tag">Statistical Modeling</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <div class="skill-group-header"><span class="skill-group-dot"></span><span class="skill-group-title">Technology &amp; Platforms</span></div>
+          <div class="skill-tags">
+            <span class="skill-tag">Salesforce (SFDC)</span><span class="skill-tag">SAP ERP/CRM</span><span class="skill-tag">G-Suite</span>
+            <span class="skill-tag">MS SharePoint</span><span class="skill-tag">MS Visio</span><span class="skill-tag">MS Office</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <div class="skill-group-header"><span class="skill-group-dot"></span><span class="skill-group-title">Strategic Capabilities</span></div>
+          <div class="skill-tags">
+            <span class="skill-tag">AOP &amp; Quota Planning</span><span class="skill-tag">Territory Design</span>
+            <span class="skill-tag">GTM Strategy</span><span class="skill-tag">MBR / QBR Facilitation</span><span class="skill-tag">Whitespace Analysis</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <div class="skill-group-header"><span class="skill-group-dot"></span><span class="skill-group-title">Finance &amp; SaaS Metrics</span></div>
+          <div class="skill-tags">
+            <span class="skill-tag">MRR / ARR</span><span class="skill-tag">ARPU</span><span class="skill-tag">Churn Analysis</span>
+            <span class="skill-tag">Bookings/Revenue</span><span class="skill-tag">Forecast Variance</span><span class="skill-tag">P&amp;L Analysis</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <div class="skill-group-header"><span class="skill-group-dot"></span><span class="skill-group-title">Leadership &amp; PM</span></div>
+          <div class="skill-tags">
+            <span class="skill-tag">Cross-functional Leadership</span><span class="skill-tag">Program Management</span>
+            <span class="skill-tag">Stakeholder Management</span><span class="skill-tag">Process Improvement</span><span class="skill-tag">Agile</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-chip chip-yellow">05 · Education</span>
+        <h2 class="section-title">Education</h2>
+        <span class="section-line"></span>
+      </div>
+      <div class="edu-grid reveal">
+        <div class="edu-card">
+          <div class="edu-card-accent"></div>
+          <div class="edu-degree">M.S. in Business Analytics</div>
+          <div class="edu-school">The University of Texas at Dallas</div>
+          <div class="edu-year">Dec 2019 · Dallas, TX, USA</div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-card-accent"></div>
+          <div class="edu-degree">B.E. in Computer Science</div>
+          <div class="edu-school">Visvesvaraya Technological University</div>
+          <div class="edu-year">Jun 2014 · India</div>
+        </div>
+      </div>
+      <div class="cert-strip reveal">
+        <span class="cert-pill"><span class="cert-dot"></span>Customer Analytics — Wharton Online</span>
+        <span class="cert-pill"><span class="cert-dot"></span>Marketing Analytics — UC BerkeleyX</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-chip chip-blue">06 · Contact</span>
+        <h2 class="section-title">Get In Touch</h2>
+        <span class="section-line"></span>
+      </div>
+      <div class="contact-layout">
+        <div class="contact-info reveal">
+          <h3>Let's build something impactful together.</h3>
+          <p>Open to strategic conversations around GTM finance, sales operations, analytics leadership, or advisory engagements. I'll get back to you promptly.</p>
+          <div class="contact-details">
+            <div class="contact-detail">
+              <div class="cd-icon blue">📍</div>
+              <div class="cd-text"><strong>Location</strong>Bangalore, India</div>
+            </div>
+            <div class="contact-detail">
+              <div class="cd-icon red">💼</div>
+              <div class="cd-text"><strong>Current Role</strong>Financial Analyst II, Google Inc.</div>
+            </div>
+            <div class="contact-detail">
+              <div class="cd-icon green">🌐</div>
+              <div class="cd-text"><strong>Languages</strong>English, Hindi</div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="contact-form-card">
+            <form class="contact-form" id="contactForm">
+              <div class="form-row">
+                <div class="form-group"><label for="fname">First Name</label><input type="text" id="fname" placeholder="Jane" required /></div>
+                <div class="form-group"><label for="lname">Last Name</label><input type="text" id="lname" placeholder="Doe" required /></div>
+              </div>
+              <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" placeholder="jane@company.com" required /></div>
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <select id="subject">
+                  <option value="">Select a topic…</option>
+                  <option>Career Opportunity</option>
+                  <option>Advisory / Consulting</option>
+                  <option>Collaboration</option>
+                  <option>General Inquiry</option>
+                </select>
+              </div>
+              <div class="form-group"><label for="message">Message</label><textarea id="message" placeholder="Tell me about your project or opportunity…" required></textarea></div>
+              <div class="form-submit">
+                <span class="form-note">I typically respond within 24–48 hours.</span>
+                <button type="submit" class="btn-primary">Send Message</button>
+              </div>
+              <div class="success-msg" id="successMsg">✔ Message received — I'll be in touch shortly. Thank you!</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-left">
+      <div class="footer-dots"><span></span><span></span><span></span><span></span></div>
+      <span class="footer-copy">© 2026 · Nikhil Acharya</span>
+    </div>
+    <div class="footer-links">
+      <a href="#hero">Back to Top ↑</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => io.observe(el));
+
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const msg = document.getElementById('successMsg');
+      const btn = this.querySelector('button[type="submit"]');
+      msg.style.display = 'block'; btn.disabled = true; btn.textContent = 'Sent ✓';
+      btn.style.background = '#34A853';
+      setTimeout(() => {
+        this.reset(); msg.style.display = 'none';
+        btn.disabled = false; btn.textContent = 'Send Message'; btn.style.background = '';
+      }, 5000);
+    });
+  </script>
+</body>
+</html>
